@@ -38,6 +38,10 @@
           "named": true
         },
         {
+          "type": "fake_player",
+          "named": true
+        },
+        {
           "type": "macro_interpolation",
           "named": true
         },
@@ -243,6 +247,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "unquoted_string",
+          "named": true
         }
       ]
     }
@@ -277,6 +285,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "unquoted_string",
           "named": true
         }
       ]
@@ -403,6 +415,11 @@
     "fields": {}
   },
   {
+    "type": "unquoted_string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\n",
     "named": false
   },
@@ -452,6 +469,10 @@
   },
   {
     "type": "comment_normal_tag",
+    "named": true
+  },
+  {
+    "type": "fake_player",
     "named": true
   },
   {

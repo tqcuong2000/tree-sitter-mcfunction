@@ -94,12 +94,8 @@
     "comment_normal_tag": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "#"
-        }
+        "type": "PATTERN",
+        "value": "#"
       }
     },
     "comment_important": {
@@ -453,6 +449,20 @@
         }
       ]
     },
+    "fake_player": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "#[^\\s\\{\\[\\]\"']+"
+      }
+    },
+    "unquoted_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+      }
+    },
     "number": {
       "type": "TOKEN",
       "content": {
@@ -565,6 +575,10 @@
         {
           "type": "SYMBOL",
           "name": "nbt_array"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquoted_string"
         }
       ]
     },
@@ -975,6 +989,10 @@
         {
           "type": "SYMBOL",
           "name": "selector_arguments"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fake_player"
         }
       ]
     }

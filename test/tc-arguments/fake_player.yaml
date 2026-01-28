@@ -1,0 +1,12 @@
+command:
+  scoreboard players set #fake objective 1
+
+expected:
+  (source_file
+    (command
+      (command_name)
+      (argument_common)
+      (argument_common)
+      (argument_common)
+      (argument_common)
+      (number)))

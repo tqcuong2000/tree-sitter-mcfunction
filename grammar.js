@@ -19,7 +19,7 @@ export default grammar({
         field("content", optional($.comment_content)),
       ),
     // The tag prefix for normal comments (#).
-    comment_normal_tag: ($) => token(prec(1, /#/)),
+    comment_normal_tag: ($) => token(/#/),
 
     // --- Important Comments ---
     // An important comment marked explicitly (e.g., #! content).
@@ -86,8 +86,10 @@ export default grammar({
       token(seq("'", repeat(choice(/[^'\\\n]/, /\\./)), "'")),
     // A boolean literal (true or false).
     boolean: ($) => choice("true", "false"),
+    // Fake player name
+    fake_player: ($) => token(/#[^\s\{\[\]"']+/),
     // Unquoted string
-    unquoted_string: ($) => token(/[a-zA-Z_][a-zA-Z0-9_]*/),  
+    unquoted_string: ($) => token(/[a-zA-Z_][a-zA-Z0-9_]*/),
     // A numerical value, optionally with a type suffix (e.g., 1.0f).
     number: ($) =>
       token(
@@ -203,6 +205,7 @@ export default grammar({
         $.resource_location,
         $.coordinates,
         $.selector_arguments,
+        $.fake_player,
       ),
   },
 });
