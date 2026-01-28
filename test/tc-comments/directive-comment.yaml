@@ -1,0 +1,10 @@
+command: 
+  #>hello:world
+expected:
+  (source_file [0, 0] - [0, 13]
+    (comment_line [0, 0] - [0, 13]
+      tag: (comment_tag_directive [0, 0] - [0, 2])
+      content: (directive_content [0, 2] - [0, 13]
+        (directive_key [0, 2] - [0, 7])
+        (directive_value [0, 8] - [0, 13]
+          (comment_content [0, 8] - [0, 13])))))

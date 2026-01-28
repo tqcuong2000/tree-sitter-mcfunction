@@ -1,0 +1,16 @@
+command:
+  tellraw \
+  @s \
+  "hello"
+
+  say "hello"
+expected:
+  (source_file [0, 0] - [4, 11]
+    (command [0, 0] - [2, 7]
+      (command_name [0, 0] - [0, 7])
+      (selector [1, 0] - [1, 2]
+        (selector_variable [1, 0] - [1, 2]))
+      (string [2, 0] - [2, 7]))
+    (command [4, 0] - [4, 11]
+      (command_name [4, 0] - [4, 3])
+      (string [4, 4] - [4, 11])))

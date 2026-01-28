@@ -1,0 +1,9 @@
+command: 
+  tp @s ^-.1 ^ ^2.1
+expected:
+  (source_file [0, 0] - [0, 17]
+    (command [0, 0] - [0, 17]
+      (command_name [0, 0] - [0, 2])
+      (selector [0, 3] - [0, 5]
+        (selector_variable [0, 3] - [0, 5]))
+      (coordinates [0, 6] - [0, 17])))

@@ -1,0 +1,9 @@
+command: 
+  #!This is \
+  comment \
+    line3
+expected:
+  (source_file [0, 0] - [2, 7]
+    (comment_line [0, 0] - [2, 7]
+      tag: (comment_tag_important [0, 0] - [0, 2])
+      content: (comment_content [0, 2] - [2, 7])))
