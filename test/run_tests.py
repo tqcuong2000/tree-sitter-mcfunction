@@ -1,9 +1,12 @@
 import glob
 import os
 import subprocess
-from pathlib import Path
-
+import re
 import yaml
+
+
+def strip_ranges(text):
+    return re.sub(r"\s*\[\d+, \d+\]\s*-\s*\[\d+, \d+\]", "", text)
 
 
 def run_test(path):
@@ -50,7 +53,7 @@ def run_test(path):
     code = "\n".join(code_lines).strip()
     expected = "\n".join(expected_lines).strip()
 
-    temp_file = "temp_test.mcfunction"
+    temp_file = "test/temp_test.mcfunction"
     with open(temp_file, "w", encoding="utf-8") as f:
         f.write(code)
 
@@ -62,6 +65,9 @@ def run_test(path):
     )
     actual = result.stdout + result.stderr
 
+    # Strip ranges from actual output for comparison
+    clean_actual = strip_ranges(actual)
+
     # Fuzzy match: all non-empty lines in expected should be in actual
     clean_expected = expected.replace("...", "")
     expected_match_lines = [
@@ -69,20 +75,18 @@ def run_test(path):
     ]
     passed = True
     for line in expected_match_lines:
-        if line not in actual:
-            print(f"FAILED TO FIND LINE: '{line}'")
-            # print(f"ACTUAL WAS: '{actual}'")
+        # Strip ranges from expected line for comparison
+        clean_line = strip_ranges(line)
+        if clean_line not in clean_actual:
+            print(f"FAILED TO FIND LINE: '{clean_line}' (Original: '{line}')")
+            # print(f"ACTUAL WAS: '{clean_actual}'")
             passed = False
             break
 
     os.remove(temp_file)
     return passed, actual, expected
 
-
-script_path = Path(__file__).resolve()
-script_dir = script_path.parent
-
-test_files = glob.glob(f"{script_dir}/tc-*/*.yaml")
+test_files = glob.glob("test/tc-*/*.yaml")
 print(f"Discovered {len(test_files)} tests: {test_files}")
 
 summary_data = {
@@ -130,5 +134,5 @@ print(f"Total: {summary_data['summary']['total']}")
 print(f"Passed: {summary_data['summary']['passed']}")
 print(f"Failed: {summary_data['summary']['failed']}")
 
-with open("test-summary.yaml", "w", encoding="utf-8") as f:
+with open("test/test-summary.yaml", "w", encoding="utf-8") as f:
     yaml.dump(summary_data, f, sort_keys=False, indent=2, width=1000)

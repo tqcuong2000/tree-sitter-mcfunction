@@ -1,0 +1,38 @@
+command:
+  execute positioned ^-1.1 ^1 ^-.1 as \
+  @s[nbt={data:{test:true}}] run data modify storage \
+  minecraft:test set set value \
+  {data:[1,"test"],name:"test"}
+
+expected:
+  (source_file
+    (command
+      (command_name)
+      (argument_common)
+      (coordinates)
+      (argument_common)
+      (selector
+        (selector_variable)
+        (selector_arguments
+          argument: (selector_argument
+            (selector_key)
+            (nbt_compound
+              (nbt_key)
+              (nbt_compound
+                (nbt_key)
+                (boolean))))))
+      (argument_common)
+      (argument_common)
+      (argument_common)
+      (argument_common)
+      (resource_location)
+      (argument_common)
+      (argument_common)
+      (argument_common)
+      (nbt_compound
+        (nbt_key)
+        (nbt_array
+          (number)
+          (string))
+        (nbt_key)
+        (string))))

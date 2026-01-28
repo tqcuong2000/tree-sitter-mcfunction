@@ -3,5 +3,6 @@ command:
 expected:
   (source_file [0, 0] - [0, 17]
     (comment_line [0, 0] - [0, 17]
-      tag: (comment_tag_normal [0, 0] - [0, 1])
-      content: (comment_content [0, 1] - [0, 17])))
+      (comment_normal [0, 0] - [0, 17]
+        tag: (comment_normal_tag [0, 0] - [0, 1])
+        content: (comment_content [0, 1] - [0, 17]))))

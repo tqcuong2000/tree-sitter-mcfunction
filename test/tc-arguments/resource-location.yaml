@@ -9,12 +9,14 @@ expected:
       (selector [0, 5] - [0, 7]
         (selector_variable [0, 5] - [0, 7]))
       (resource_location [0, 8] - [0, 25])
-    (selector_key [0, 26] - [0, 37])
-    (selector_value_content [0, 38] - [0, 40]))
-  (command [1, 0] - [1, 54]
-    (command_name [1, 0] - [1, 11])
-    (fallback [1, 12] - [1, 17])
-    (selector [1, 18] - [1, 20]
-      (selector_variable [1, 18] - [1, 20]))
-    (fallback [1, 21] - [1, 25])
-    (resource_location [1, 26] - [1, 54])))
+      (selector_arguments [0, 25] - [0, 41]
+        argument: (selector_argument [0, 26] - [0, 40]
+          (selector_key [0, 26] - [0, 37])
+          (nbt_compound [0, 38] - [0, 40]))))
+    (command [1, 0] - [1, 54]
+      (command_name [1, 0] - [1, 11])
+      (argument_common [1, 12] - [1, 17])
+      (selector [1, 18] - [1, 20]
+        (selector_variable [1, 18] - [1, 20]))
+      (argument_common [1, 21] - [1, 25])
+      (resource_location [1, 26] - [1, 54])))

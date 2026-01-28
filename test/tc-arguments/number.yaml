@@ -5,10 +5,10 @@ expected:
   (source_file [0, 0] - [1, 27]
     (command [0, 0] - [1, 27]
       (command_name [0, 0] - [0, 4])
-      (fallback [0, 5] - [0, 11])
-      (fallback [0, 12] - [0, 18])
-      (fallback [1, 0] - [1, 4])
-      (fallback [1, 5] - [1, 11])
-      (fallback [1, 12] - [1, 15])
-      (fallback [1, 16] - [1, 21])
+      (argument_common [0, 5] - [0, 11])
+      (argument_common [0, 12] - [0, 18])
+      (argument_common [1, 0] - [1, 4])
+      (argument_common [1, 5] - [1, 11])
+      (argument_common [1, 12] - [1, 15])
+      (argument_common [1, 16] - [1, 21])
       (number [1, 22] - [1, 27])))

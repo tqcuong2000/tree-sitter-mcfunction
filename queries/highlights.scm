@@ -1,31 +1,28 @@
 ; Comments
-(comment_tag_normal) @comment
-(comment_content) @comment
-(comment_tag_important) @tag
-(comment_tag_directive) @comment
-
-; Directive keys/values
-(directive_key) @property
-(directive_value) @string
+(comment_normal) @comment
+(comment_important) @string.special
+(comment_directive_tag) @string.special
+(comment_directive_key) @string.special
+(comment_directive (comment_content)) @comment
 
 ; Commands
 (command_name) @function
 
 ; Macros
 (command_name_macro) @function
-(macro_interpolation) @embedded
+(macro_interpolation) @variable.parameter
 
 ; Literals
 (string) @string
-(boolean) @boolean
-(resource_location) @type
+(boolean) @variable
+(resource_location) @module
 
 
 ; NBT
 (nbt_key) @property
 
 ; Selectors
-(selector_variable) @variable.builtin
+(selector_variable) @module
 (selector_key) @property
 
 ; Punctuation

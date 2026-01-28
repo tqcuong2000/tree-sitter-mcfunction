@@ -1,62 +1,66 @@
 export default grammar({
   name: "mcfunction",
 
-  extras: ($) => [
-    /[ \t\r]/, 
-    /\\\r?\n/,
-  ],
+  extras: ($) => [/[ \t\r]/, /\\\r?\n/],
 
-  conflicts: ($) => [
-    [$._argument, $._absolute_coordinate],
-  ],
+  conflicts: ($) => [[$._argument, $._absolute_coordinate]],
 
   rules: {
     source_file: ($) => repeat(choice($.comment_line, $.command, "\n")),
     // For comment:
     comment_line: ($) =>
-      choice($._comment_directive, $._comment_important, $._comment_normal),
-    comment_content: ($) => token(repeat1(choice(/[^\n\\]/, /\\./, /\\\r?\n/))),
+      choice($.comment_directive, $.comment_important, $.comment_normal),
+    comment_content: ($) => token(repeat1(choice(/[^\\]/, /\\./, /\\\r?\n/))),
     // --- Normal Comments ---
     // A normal comment line (e.g., # content).
-    _comment_normal: ($) =>
+    comment_normal: ($) =>
       seq(
-        field("tag", $.comment_tag_normal),
+        field("tag", $.comment_normal_tag),
         field("content", optional($.comment_content)),
       ),
     // The tag prefix for normal comments (#).
-    comment_tag_normal: ($) => token(prec(1, /#/)),
+    comment_normal_tag: ($) => token(prec(1, /#/)),
 
     // --- Important Comments ---
     // An important comment marked explicitly (e.g., #! content).
-    _comment_important: ($) =>
+    comment_important: ($) =>
       seq(
-        field("tag", $.comment_tag_important),
+        field("tag", $.comment_important_tag),
         field("content", optional($.comment_content)),
       ),
     // The tag prefix for important comments (#! or #@).
-    comment_tag_important: ($) => token(prec(2, /#[!@]/)),
+    comment_important_tag: ($) => token(prec(2, /#[!@]/)),
 
     // --- Directive Comments ---
     // A comment used as a processing directive (e.g., #> key: value).
-    _comment_directive: ($) =>
+    comment_directive: ($) =>
       seq(
-        field("tag", $.comment_tag_directive),
-        field("content", $.directive_content),
+        field("tag", $.comment_directive_tag),
+        field("content", $._comment_directive_content),
       ),
     // The tag prefix for directive comments (#>).
-    comment_tag_directive: ($) => token(prec(2, /#>/)),
+    comment_directive_tag: ($) => token(prec(2, /#>/)),
     // The structured content for a directive comment.
-    directive_content: ($) =>
-      seq($.directive_key, ":", optional($.directive_value)),
+    _comment_directive_content: ($) =>
+      seq(
+        field("key", $.comment_directive_key),
+        ":",
+        field("value", optional($.comment_content)),
+      ),
     // The key part of a directive.
-    directive_key: ($) => token(/[^:\r\n]+/),
-    // The value part of a directive.
-    directive_value: ($) => $.comment_content,
+    comment_directive_key: ($) => token(/[^:#>\r\n]+/),
     // A command with its name and arguments.
     command: ($) => choice($._command_normal, $._command_macro),
     // Command types
-    _command_normal: ($) =>prec.right(seq($.command_name, repeat($._argument))),
-    _command_macro: ($) => prec.right(seq($.command_name_macro, repeat(choice($._argument, $.macro_interpolation)))),
+    _command_normal: ($) =>
+      prec.right(seq($.command_name, repeat($._argument))),
+    _command_macro: ($) =>
+      prec.right(
+        seq(
+          $.command_name_macro,
+          repeat(choice($._argument, $.macro_interpolation)),
+        ),
+      ),
     // A argument_common argument type for content that doesn't match specialized types.
     argument_common: ($) =>
       choice(
@@ -66,7 +70,7 @@ export default grammar({
             repeat(choice(/[^\s\\\$]/, seq("\\", /[^\r\n]/))),
           ),
         ),
-        "$"
+        "$",
       ),
     // The name of the command being executed.
     command_name: ($) => token(/[a-z0-9_.]+/),
@@ -82,31 +86,40 @@ export default grammar({
       token(seq("'", repeat(choice(/[^'\\\n]/, /\\./)), "'")),
     // A boolean literal (true or false).
     boolean: ($) => choice("true", "false"),
+    // Unquoted string
+    unquoted_string: ($) => token(/[a-zA-Z_][a-zA-Z0-9_]*/),  
     // A numerical value, optionally with a type suffix (e.g., 1.0f).
     number: ($) =>
       token(
         prec(
           1,
-          seq(/-?(\d+(\.\d+)?|\.\d+)([eE][+-]?\d+)?/, optional(/[bslfdtBSLFDT]/)),
+          seq(
+            /-?(\d+(\.\d+)?|\.\d+)([eE][+-]?\d+)?/,
+            optional(/[bslfdtBSLFDT]/),
+          ),
         ),
       ),
     // An NBT array (e.g., [1, 2, 3]).
     nbt_array: ($) =>
-      prec(1,
+      prec(
+        1,
         seq(
           "[",
           optional(
             seq($._nbt_value, repeat(seq(",", $._nbt_value)), optional(",")),
           ),
           "]",
-        )),
+        ),
+      ),
     // A value that can be stored in an NBT array.
     _nbt_value: ($) => choice($.string, $.number, $.boolean, $.nbt_array),
     // An NBT compound (e.g., {key: "value"}).
     nbt_compound: ($) =>
       seq(
         "{",
-        optional(seq($._nbt_pair, repeat(seq(",", $._nbt_pair)), optional(","))),
+        optional(
+          seq($._nbt_pair, repeat(seq(",", $._nbt_pair)), optional(",")),
+        ),
         "}",
       ),
 
@@ -118,43 +131,53 @@ export default grammar({
 
     // A value within an NBT compound, including nested compounds.
     _nbt_value: ($) =>
-      choice($.string, $.number, $.boolean, $.nbt_compound, $.nbt_array),
+      choice($.string, $.number, $.boolean, $.nbt_compound, $.nbt_array, $.unquoted_string),
     // Selector
 
-    selector: ($) => prec.right(seq($.selector_variable, optional($._selector_arguments))),
-
+    selector: ($) =>
+      prec.right(seq($.selector_variable, optional($.selector_arguments))),
     selector_variable: ($) => token(prec(1, /@[parsen]/)),
 
-    _selector_arguments: ($) =>
+    selector_arguments: ($) =>
       seq(
         "[",
-        optional(
+        optional(field("argument",
           seq(
-            $._selector_argument,
-            repeat(seq(",", $._selector_argument)),
+            $.selector_argument,
+            repeat(seq(",", $.selector_argument)),
             optional(","),
-          ),
+          )),
         ),
         "]",
       ),
 
-    _selector_argument: ($) => seq($.selector_key, "=", $._selector_value),
+    selector_argument: ($) => seq($.selector_key, "=", $._selector_value),
 
     selector_key: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
     _selector_value: ($) =>
       choice($.string, $.number, $.nbt_compound, $.selector_value_content),
 
-    selector_value_content: ($) => /[^\],\s]+/,
+    selector_value_content: ($) => /[^\],{\[\s]+/,
 
     // Resource Location (e.g., minecraft:diamond)
-    resource_location: ($) => token(prec(1, /[a-z0-9_.\-]+:[^\s\{\[]+/)),
+    resource_location: ($) =>
+      choice(
+        token(prec(1, /[a-z0-9_.\-]+:[^\s\{\[]+/)),
+        token(prec(2, seq('"', /[a-z0-9_.\-]+:[a-z0-9_.\-\/]+/, '"'))),
+      ),
 
     // Coordinates sequence (3 numbers, relative, or local)
-    coordinates: ($) => prec.dynamic(2, seq($._coordinate, $._coordinate, $._coordinate)),
+    coordinates: ($) =>
+      prec.dynamic(2, seq($._coordinate, $._coordinate, $._coordinate)),
 
     // Single coordinate value
-    _coordinate: ($) => choice($._absolute_coordinate, $._relative_coordinate, $._local_coordinate),
+    _coordinate: ($) =>
+      choice(
+        $._absolute_coordinate,
+        $._relative_coordinate,
+        $._local_coordinate,
+      ),
 
     // Absolute coordinate (e.g., 10, -5.5) - explicitly uses number
     _absolute_coordinate: ($) => alias($.number, "_number"),
@@ -179,7 +202,7 @@ export default grammar({
         $.selector,
         $.resource_location,
         $.coordinates,
-        $._selector_arguments,
+        $.selector_arguments,
       ),
   },
 });

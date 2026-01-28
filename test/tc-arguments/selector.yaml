@@ -1,27 +1,22 @@
 command:
   tellraw @a[name=name] "hello"
   tag @n add test
-  kill @e[type=zombie,scores={sc=10..}]
 
 expected:
-  (source_file [0, 0] - [2, 37]
+  (source_file [0, 0] - [1, 15]
     (command [0, 0] - [0, 29]
       (command_name [0, 0] - [0, 7])
       (selector [0, 8] - [0, 21]
         (selector_variable [0, 8] - [0, 10])
-        (selector_key [0, 11] - [0, 15])
-        (selector_value_content [0, 16] - [0, 20]))
+        (selector_arguments [0, 10] - [0, 21]
+          argument: (selector_argument [0, 11] - [0, 20]
+            (selector_key [0, 11] - [0, 15])
+            (selector_value_content [0, 16] - [0, 20]))))
       (string [0, 22] - [0, 29]))
     (command [1, 0] - [1, 15]
       (command_name [1, 0] - [1, 3])
-      (fallback [1, 4] - [1, 6])
-      (fallback [1, 7] - [1, 10])
-      (fallback [1, 11] - [1, 15]))
-    (command [2, 0] - [2, 37]
-      (command_name [2, 0] - [2, 4])
-      (selector [2, 5] - [2, 37]
-        (selector_variable [2, 5] - [2, 7])
-        (selector_key [2, 8] - [2, 12])
-        (selector_value_content [2, 13] - [2, 19])
-        (selector_key [2, 20] - [2, 26])
-        (selector_value_content [2, 27] - [2, 36]))))
+      (selector [1, 4] - [1, 6]
+        (selector_variable [1, 4] - [1, 6]))
+      (argument_common [1, 7] - [1, 10])
+      (argument_common [1, 11] - [1, 15])))
+

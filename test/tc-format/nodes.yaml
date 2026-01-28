@@ -4,8 +4,8 @@ expected:
   (source_file [0, 0] - [0, 31]
     (command [0, 0] - [0, 31]
       (command_name [0, 0] - [0, 7])
-      (fallback [0, 8] - [0, 10])
-      (fallback [0, 11] - [0, 15])
-      (fallback [0, 16] - [0, 19])
-      (fallback [0, 20] - [0, 23])
+      (argument_common [0, 8] - [0, 10])
+      (argument_common [0, 11] - [0, 15])
+      (argument_common [0, 16] - [0, 19])
+      (argument_common [0, 20] - [0, 23])
       (string [0, 24] - [0, 31])))
