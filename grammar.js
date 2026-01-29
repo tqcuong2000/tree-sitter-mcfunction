@@ -1,9 +1,16 @@
 export default grammar({
   name: "mcfunction",
 
-  extras: ($) => [/[ \t\r]/, /\\\r?\n/],
+  extras: ($) => [/[ \t\r]/, $._line_continuation],
 
-  conflicts: ($) => [[$._argument, $._absolute_coordinate]],
+  conflicts: ($) => [
+    [$._argument_shared, $._absolute_coordinate],
+    [$._argument_normal, $._absolute_coordinate],
+    [$._argument_macro, $._absolute_coordinate],
+    [$._argument_literal, $._absolute_coordinate],
+    [$._argument_literal, $.boolean],
+    [$.argument_common, $.boolean],
+  ],
 
   rules: {
     source_file: ($) =>
@@ -11,10 +18,11 @@ export default grammar({
         repeat(choice(seq($.comment_line, "\n"), seq($.command, "\n"), "\n")),
         optional(choice($.comment_line, $.command)),
       ),
+    _line_continuation: ($) => token(seq("\\", optional(/[ \t]+/), /\r?\n/)),
     // For comment:
     comment_line: ($) =>
       choice($.comment_directive, $.comment_important, $.comment_normal),
-    comment_content: ($) => token(repeat1(choice(/[^\\\r\n]/, /\\./, /\\\r?\n/))),
+    comment_content: ($) => token(repeat1(choice(/[^\\\r\n]/, /\\./, /\\[ \t]*\r?\n/))),
     // --- Normal Comments ---
     // A normal comment line (e.g., # content).
     comment_normal: ($) =>
@@ -56,13 +64,14 @@ export default grammar({
     // A command with its name and arguments.
     command: ($) => choice($._command_normal, $._command_macro),
     // Command types
+    // Command types
     _command_normal: ($) =>
-      prec.right(seq($.command_name, repeat($._argument))),
+      prec.right(seq($.command_name, repeat($._argument_normal))),
     _command_macro: ($) =>
       prec.right(
         seq(
           $.command_name_macro,
-          repeat(choice($._argument, $.macro_interpolation)),
+          repeat($._argument_macro),
         ),
       ),
     // A argument_common argument type for content that doesn't match specialized types.
@@ -71,11 +80,29 @@ export default grammar({
         token(
           seq(
             choice(/[^"'\s\\\[{^~\\$]/, seq("\\", /[^\r\n]/)),
-            repeat(choice(/[^\s\\\$]/, seq("\\", /[^\r\n]/))),
+            repeat(choice(/[^\s\\\$\[\{]/, seq("\\", /[^\r\n]/))),
           ),
         ),
         "$",
       ),
+
+    // Argument literal token: allows '$' (e.g. $(hello))
+    // We strictly alias this to argument_common so it appears as such in the AST
+    _argument_literal_token: ($) =>
+      alias(
+        token(
+          seq(
+            choice(/[^"'\s\\\[{^~]/, seq("\\", /[^\r\n]/)),
+            repeat(choice(/[^\s\\\[\{]/, seq("\\", /[^\r\n]/))),
+          ),
+        ),
+        $.argument_common
+      ),
+
+    // Argument literal rule: accepts standard common arguments OR the literal token with dollars
+    _argument_literal: ($) =>
+      choice($.argument_common, $._argument_literal_token),
+
     // The name of the command being executed.
     command_name: ($) => token(/[a-z0-9_.]+/),
     command_name_macro: ($) => seq("$", token(/[a-z0-9_.]+/)),
@@ -116,11 +143,11 @@ export default grammar({
       ),
     _string_content_single: ($) => token.immediate(/[^'\\$]+|\\.|[$]/),
     // A boolean literal (true or false).
-    boolean: ($) => choice("true", "false"),
+    boolean: ($) => choice(token(prec(2, "true")), token(prec(2, "false"))),
     // Fake player name
     fake_player: ($) => token(/#[^\s\{\[\]"']+/),
     // Unquoted string
-    unquoted_string: ($) => $._unquoted_identifier,
+    unquoted_string: ($) => prec(2, $._unquoted_identifier),
     // A numerical value, optionally with a type suffix (e.g., 1.0f).
     number: ($) =>
       token(
@@ -132,6 +159,16 @@ export default grammar({
           ),
         ),
       ),
+    // Named List
+    named_list: ($) =>
+      prec(2, seq($.argument_common, token.immediate("["), optional($._argument_macro), "]")),
+    named_compound: ($) =>
+      prec(3, seq(
+        $.argument_common,
+        token.immediate("{"),
+        optional(seq($._nbt_pair, repeat(seq(",", $._nbt_pair)), optional(","))),
+        "}"
+      )),
     // An NBT array (e.g., [1, 2, 3]).
     nbt_array: ($) =>
       prec(
@@ -243,20 +280,55 @@ export default grammar({
           ),
         ),
       ),
+    // Immediate argument text for macro components
+    _macro_arg_text_immediate: ($) => token.immediate(/([^\\$ \t\r\n\[\]\{\}]|\\[^\r\n])+/),
+
+    macro_component: ($) =>
+      prec.right(1, choice(
+        seq(
+          $.argument_common,
+          repeat1(choice(
+            alias($._macro_arg_text_immediate, $.argument_common),
+            alias($._macro_interpolation_immediate, $.macro_interpolation),
+          )),
+        ),
+        seq(
+          $.macro_interpolation,
+          repeat(choice(
+            alias($._macro_arg_text_immediate, $.argument_common),
+            alias($._macro_interpolation_immediate, $.macro_interpolation),
+          )),
+        ),
+      )),
+
     // A single argument within a command.
-    _argument: ($) =>
+    // A single argument within a command.
+    _argument_shared: ($) =>
       choice(
+        $.named_list,
+        $.named_compound,
         $.string,
         $.boolean,
         $.number,
         $.nbt_compound,
         $.nbt_array,
-        $.argument_common,
         $.selector,
         $.resource_location,
         $.coordinates,
         $.selector_arguments,
         $.fake_player,
+      ),
+    _argument_normal: ($) =>
+      choice(
+        $._argument_shared,
+        $._argument_literal,
+      ),
+
+    _argument_macro: ($) =>
+      choice(
+        $._argument_shared,
+        $.argument_common,
+        $.macro_component,
       ),
   },
 });

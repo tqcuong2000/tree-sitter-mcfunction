@@ -10,7 +10,7 @@
 
 ; Macros
 (command_name_macro) @function
-(macro_interpolation) @string.special
+(macro_interpolation) @keyword
 
 ; Literals
 (string) @string
@@ -21,9 +21,11 @@
 
 ; NBT
 (nbt_key) @property
+(named_list) @string.special
+(named_compound) @string.special
 
 ; Selectors
-(selector_variable) @constant
+(selector_variable) @keyword
 (selector_key) @property
 (selector_value_content) @string
 

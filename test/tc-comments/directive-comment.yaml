@@ -1,9 +1,0 @@
-command: 
-  #>hello:world
-expected:
-  (source_file [0, 0] - [0, 13]
-    (comment_line [0, 0] - [0, 13]
-      (comment_directive [0, 0] - [0, 13]
-        tag: (comment_directive_tag [0, 0] - [0, 2])
-        key: (comment_directive_key [0, 2] - [0, 7])
-        value: (comment_content [0, 8] - [0, 13]))))

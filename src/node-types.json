@@ -42,7 +42,15 @@
           "named": true
         },
         {
-          "type": "macro_interpolation",
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "named_compound",
+          "named": true
+        },
+        {
+          "type": "named_list",
           "named": true
         },
         {
@@ -219,6 +227,135 @@
     "type": "coordinates",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "macro_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_compound",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "nbt_array",
+          "named": true
+        },
+        {
+          "type": "nbt_compound",
+          "named": true
+        },
+        {
+          "type": "nbt_key",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unquoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "coordinates",
+          "named": true
+        },
+        {
+          "type": "fake_player",
+          "named": true
+        },
+        {
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "named_compound",
+          "named": true
+        },
+        {
+          "type": "named_list",
+          "named": true
+        },
+        {
+          "type": "nbt_array",
+          "named": true
+        },
+        {
+          "type": "nbt_compound",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "resource_location",
+          "named": true
+        },
+        {
+          "type": "selector",
+          "named": true
+        },
+        {
+          "type": "selector_arguments",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "nbt_array",

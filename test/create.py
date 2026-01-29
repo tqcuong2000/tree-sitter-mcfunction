@@ -2,6 +2,7 @@ import os
 import subprocess
 import re
 import sys
+from test_utils import TestCase
 
 def strip_ranges(text):
     return re.sub(r"\s*\[\d+, \d+\]\s*-\s*\[\d+, \d+\]", "", text)
@@ -21,7 +22,7 @@ def main():
 
     # Construct paths
     group_dir = os.path.join("test", f"tc-{group_name}")
-    file_name = f"{test_name}.yaml"
+    file_name = f"{test_name}.md"
     file_path = os.path.join(group_dir, file_name)
 
     # 3. Check for existing file
@@ -34,7 +35,9 @@ def main():
     # 4. Read content from test/test.mcfunction
     source_path = "test/test.mcfunction"
     if not os.path.exists(source_path):
+        # Try to create it if it doesn't exist to be helpful
         print(f"Error: Source file '{source_path}' not found.")
+        print(f"Please create '{source_path}' and put your mcfunction command there.")
         return
 
     with open(source_path, "r", encoding="utf-8") as f:
@@ -53,7 +56,10 @@ def main():
             shell=True,
             check=False
         )
-        parsed_output = result.stdout + result.stderr
+        parsed_output = result.stdout
+        if result.stderr:
+            parsed_output += "\n" + result.stderr
+            
         if result.returncode != 0:
             print(f"Warning: tree-sitter parse returned exit code {result.returncode}")
     except Exception as e:
@@ -61,34 +67,25 @@ def main():
         print(str(e))
         return
 
-    # 6. Transform output (remove ranges)
+    # 6. Transform output (remove ranges and stats)
     # Filter out stats lines
     lines = parsed_output.splitlines()
     clean_lines = [line for line in lines if not ("Parse:" in line and "ms" in line)]
-    clean_output = strip_ranges("\n".join(clean_lines))
+    clean_output = strip_ranges("\n".join(clean_lines)).strip()
 
     # 7. Create directory if not exists
     os.makedirs(group_dir, exist_ok=True)
 
-    # 8. Write to YAML file
-    # We construct the yaml manually to ensure format control
-    # Indentation is important for YAML
+    # 8. Create and Save TestCase
+    tc = TestCase(
+        file_path=file_path,
+        name=f"{test_name}.yaml", # Keeping the old naming convention for the title if desired, or just use test_name
+        command=command_content,
+        expected_output=clean_output,
+        status="PASS"
+    )
     
-    # Indent command content with 2 spaces
-    indented_command = "\n".join(["  " + line for line in command_content.splitlines()])
-    
-    # Indent expected content with 2 spaces
-    indented_expected = "\n".join(["  " + line for line in clean_output.strip().splitlines()])
-
-    yaml_content = f"""command:
-{indented_command}
-
-expected:
-{indented_expected}
-"""
-
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(yaml_content)
+    tc.save()
 
     print(f"Test case created successfully at '{file_path}'")
 
