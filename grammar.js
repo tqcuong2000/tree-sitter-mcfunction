@@ -110,8 +110,8 @@ export default grammar({
     ),
 
     // The name of the command being executed.
-    command_name: ($) => token(/[a-z0-9_.]+/),
-    command_name_macro: ($) => seq("$", token(/[a-z0-9_.]+/)),
+    command_name: ($) => token(/[a-zA-Z_][a-zA-Z0-9_.]*/),
+    command_name_macro: ($) => seq("$", token(/[a-zA-Z0-9_.]+/)),
     // Arguments:
     // A string argument, either single or double quoted.
     string: ($) => choice($._double_quoted_string, $._single_quoted_string),
@@ -311,6 +311,7 @@ export default grammar({
     // A single argument within a command.
     _argument_shared: ($) =>
       choice(
+        $.run_clause,
         $.nbt_path,
         $.named_list,
         $.named_compound,
@@ -325,6 +326,11 @@ export default grammar({
         $.selector_arguments,
         $.fake_player,
       ),
+
+    run_clause: ($) => prec(5, seq(
+      "run",
+      $.command
+    )),
     _argument_normal: ($) =>
       choice(
         $._argument_shared,

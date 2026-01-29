@@ -74,6 +74,10 @@
           "named": true
         },
         {
+          "type": "run_clause",
+          "named": true
+        },
+        {
           "type": "selector",
           "named": true
         },
@@ -87,11 +91,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "command_name",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "command_name_macro",
@@ -351,6 +350,10 @@
           "named": true
         },
         {
+          "type": "run_clause",
+          "named": true
+        },
+        {
           "type": "selector",
           "named": true
         },
@@ -485,6 +488,21 @@
     "type": "resource_location",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "run_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "command",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "selector",
@@ -670,6 +688,10 @@
     "named": false
   },
   {
+    "type": "command_name",
+    "named": true
+  },
+  {
     "type": "comment_content",
     "named": true
   },
@@ -704,6 +726,10 @@
   {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "run",
+    "named": false
   },
   {
     "type": "selector_value_content",

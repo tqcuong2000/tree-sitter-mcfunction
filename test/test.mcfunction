@@ -1,2 +1,1 @@
-execute \ 
-run say hello
+execute run say hello

@@ -21,8 +21,7 @@
 
 ; NBT
 (nbt_key) @property
-(named_list) @string.special
-(named_compound) @string.special
+(nbt_path) @string.special
 
 ; Selectors
 (selector_variable) @keyword

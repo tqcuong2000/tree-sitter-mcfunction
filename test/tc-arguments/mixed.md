@@ -21,22 +21,23 @@ execute positioned ^-1.1 ^1 ^-.1 as \ @s[nbt={data:{test:true}}] run data modify
         (nbt_compound
           (nbt_key)
           (boolean))))
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (named_compound
-      (argument_common)
-      (nbt_key)
-      (nbt_array
-        (number)
-        (string))
-      (nbt_key)
-      (string))))
+    (run_clause
+      (command
+        (command_name)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (named_compound
+          (argument_common)
+          (nbt_key)
+          (nbt_array
+            (number)
+            (string))
+          (nbt_key)
+          (string))))))
 ```
 
 ### Actual output
@@ -55,22 +56,23 @@ execute positioned ^-1.1 ^1 ^-.1 as \ @s[nbt={data:{test:true}}] run data modify
         (nbt_compound
           (nbt_key)
           (boolean))))
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (named_compound
-      (argument_common)
-      (nbt_key)
-      (nbt_array
-        (number)
-        (string))
-      (nbt_key)
-      (string))))
+    (run_clause
+      (command
+        (command_name)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (argument_common)
+        (named_compound
+          (argument_common)
+          (nbt_key)
+          (nbt_array
+            (number)
+            (string))
+          (nbt_key)
+          (string))))))
 ```
 
 ### Status: PASS

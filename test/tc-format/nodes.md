@@ -12,9 +12,10 @@ execute as name run say "hello"
     (command_name)
     (argument_common)
     (argument_common)
-    (argument_common)
-    (argument_common)
-    (string)))
+    (run_clause
+      (command
+        (command_name)
+        (string)))))
 ```
 
 ### Actual output
@@ -24,9 +25,10 @@ execute as name run say "hello"
     (command_name)
     (argument_common)
     (argument_common)
-    (argument_common)
-    (argument_common)
-    (string)))
+    (run_clause
+      (command
+        (command_name)
+        (string)))))
 ```
 
 ### Status: PASS

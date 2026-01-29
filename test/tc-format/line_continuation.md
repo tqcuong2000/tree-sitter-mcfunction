@@ -15,10 +15,11 @@ world
 (source_file
   (command
     (command_name)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)))
+    (run_clause
+      (command
+        (command_name)
+        (argument_common)
+        (argument_common)))))
 ```
 
 ### Actual output
@@ -26,10 +27,11 @@ world
 (source_file
   (command
     (command_name)
-    (argument_common)
-    (argument_common)
-    (argument_common)
-    (argument_common)))
+    (run_clause
+      (command
+        (command_name)
+        (argument_common)
+        (argument_common)))))
 ```
 
 ### Status: PASS
