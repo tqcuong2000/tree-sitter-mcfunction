@@ -5,11 +5,6 @@ export default grammar({
 
   conflicts: ($) => [
     [$._argument_shared, $._absolute_coordinate],
-    [$._argument_normal, $._absolute_coordinate],
-    [$._argument_macro, $._absolute_coordinate],
-    [$._argument_literal, $._absolute_coordinate],
-    [$._argument_literal, $.boolean],
-    [$.argument_common, $.boolean],
   ],
 
   rules: {
@@ -79,8 +74,8 @@ export default grammar({
       choice(
         token(
           seq(
-            choice(/[^"'\s\\\[{^~\\$]/, seq("\\", /[^\r\n]/)),
-            repeat(choice(/[^\s\\\$\[\{]/, seq("\\", /[^\r\n]/))),
+            choice(/[^"'\s\\\[{^~\\$.]/, seq("\\", /[^\r\n]/)),
+            repeat(choice(/[^\s\\\$\[\{.]/, seq("\\", /[^\r\n]/))),
           ),
         ),
         "$",
@@ -92,8 +87,8 @@ export default grammar({
       alias(
         token(
           seq(
-            choice(/[^"'\s\\\[{^~]/, seq("\\", /[^\r\n]/)),
-            repeat(choice(/[^\s\\\[\{]/, seq("\\", /[^\r\n]/))),
+            choice(/[^"'\s\\\[{^~.]/, seq("\\", /[^\r\n]/)),
+            repeat(choice(/[^\s\\\[\{.]/, seq("\\", /[^\r\n]/))),
           ),
         ),
         $.argument_common
@@ -102,6 +97,17 @@ export default grammar({
     // Argument literal rule: accepts standard common arguments OR the literal token with dollars
     _argument_literal: ($) =>
       choice($.argument_common, $._argument_literal_token),
+
+    nbt_path: ($) => prec(4, seq(
+      $._nbt_path_segment,
+      repeat1(seq(token.immediate("."), $._nbt_path_segment))
+    )),
+
+    _nbt_path_segment: ($) => choice(
+      $.named_compound,
+      $.named_list,
+      $.argument_common
+    ),
 
     // The name of the command being executed.
     command_name: ($) => token(/[a-z0-9_.]+/),
@@ -305,6 +311,7 @@ export default grammar({
     // A single argument within a command.
     _argument_shared: ($) =>
       choice(
+        $.nbt_path,
         $.named_list,
         $.named_compound,
         $.string,

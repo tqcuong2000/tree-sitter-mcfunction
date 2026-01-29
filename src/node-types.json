@@ -62,6 +62,10 @@
           "named": true
         },
         {
+          "type": "nbt_path",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -335,6 +339,10 @@
           "named": true
         },
         {
+          "type": "nbt_path",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -445,6 +453,29 @@
         },
         {
           "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nbt_path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "named_compound",
+          "named": true
+        },
+        {
+          "type": "named_list",
           "named": true
         }
       ]
@@ -612,6 +643,10 @@
   },
   {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {

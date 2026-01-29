@@ -348,7 +348,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[^\"'\\s\\\\\\[{^~\\\\$]"
+                    "value": "[^\"'\\s\\\\\\[{^~\\\\$.]"
                   },
                   {
                     "type": "SEQ",
@@ -372,7 +372,7 @@
                   "members": [
                     {
                       "type": "PATTERN",
-                      "value": "[^\\s\\\\\\$\\[\\{]"
+                      "value": "[^\\s\\\\\\$\\[\\{.]"
                     },
                     {
                       "type": "SEQ",
@@ -411,7 +411,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\"'\\s\\\\\\[{^~]"
+                  "value": "[^\"'\\s\\\\\\[{^~.]"
                 },
                 {
                   "type": "SEQ",
@@ -435,7 +435,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[^\\s\\\\\\[\\{]"
+                    "value": "[^\\s\\\\\\[\\{.]"
                   },
                   {
                     "type": "SEQ",
@@ -469,6 +469,55 @@
         {
           "type": "SYMBOL",
           "name": "_argument_literal_token"
+        }
+      ]
+    },
+    "nbt_path": {
+      "type": "PREC",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_nbt_path_segment"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "."
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_nbt_path_segment"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "_nbt_path_segment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "named_compound"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "named_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "argument_common"
         }
       ]
     },
@@ -1433,6 +1482,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "nbt_path"
+        },
+        {
+          "type": "SYMBOL",
           "name": "named_list"
         },
         {
@@ -1526,26 +1579,6 @@
     [
       "_argument_shared",
       "_absolute_coordinate"
-    ],
-    [
-      "_argument_normal",
-      "_absolute_coordinate"
-    ],
-    [
-      "_argument_macro",
-      "_absolute_coordinate"
-    ],
-    [
-      "_argument_literal",
-      "_absolute_coordinate"
-    ],
-    [
-      "_argument_literal",
-      "boolean"
-    ],
-    [
-      "argument_common",
-      "boolean"
     ]
   ],
   "precedences": [],

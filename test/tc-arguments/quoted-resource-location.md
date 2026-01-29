@@ -14,7 +14,9 @@ data modify entity @p SelectedItem.id set value "minecraft:diamond"
     (argument_common)
     (selector
       (selector_variable))
-    (argument_common)
+    (nbt_path
+      (argument_common)
+      (argument_common))
     (argument_common)
     (argument_common)
     (resource_location)))
@@ -29,7 +31,9 @@ data modify entity @p SelectedItem.id set value "minecraft:diamond"
     (argument_common)
     (selector
       (selector_variable))
-    (argument_common)
+    (nbt_path
+      (argument_common)
+      (argument_common))
     (argument_common)
     (argument_common)
     (resource_location)))
