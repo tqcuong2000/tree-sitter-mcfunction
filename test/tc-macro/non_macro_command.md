@@ -10,7 +10,7 @@ say $(hello)
 (source_file
   (command
     (command_name)
-    (macro_interpolation)))
+    (argument_common)))
 ```
 
 ### Actual output
@@ -18,7 +18,7 @@ say $(hello)
 (source_file
   (command
     (command_name)
-    (macro_interpolation)))
+    (argument_common)))
 ```
 
 ### Status: PASS

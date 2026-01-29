@@ -46,11 +46,11 @@
           "named": true
         },
         {
-          "type": "macro_interpolation",
+          "type": "named_compound",
           "named": true
         },
         {
-          "type": "named_compound",
+          "type": "named_compound_macro",
           "named": true
         },
         {
@@ -58,7 +58,15 @@
           "named": true
         },
         {
+          "type": "named_list_macro",
+          "named": true
+        },
+        {
           "type": "nbt_array",
+          "named": true
+        },
+        {
+          "type": "nbt_array_macro",
           "named": true
         },
         {
@@ -66,7 +74,15 @@
           "named": true
         },
         {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
           "type": "nbt_path",
+          "named": true
+        },
+        {
+          "type": "nbt_path_macro",
           "named": true
         },
         {
@@ -82,11 +98,23 @@
           "named": true
         },
         {
+          "type": "run_clause_macro",
+          "named": true
+        },
+        {
           "type": "selector",
           "named": true
         },
         {
           "type": "selector_arguments",
+          "named": true
+        },
+        {
+          "type": "selector_arguments_macro",
+          "named": true
+        },
+        {
+          "type": "selector_macro",
           "named": true
         },
         {
@@ -260,7 +288,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "argument_common",
@@ -271,7 +299,19 @@
           "named": true
         },
         {
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "nbt_array",
+          "named": true
+        },
+        {
+          "type": "nbt_array_macro",
           "named": true
         },
         {
@@ -279,7 +319,15 @@
           "named": true
         },
         {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
           "type": "nbt_key",
+          "named": true
+        },
+        {
+          "type": "nbt_key_macro",
           "named": true
         },
         {
@@ -298,12 +346,27 @@
     }
   },
   {
-    "type": "named_list",
+    "type": "named_compound_macro",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
+      "types": [
+        {
+          "type": "named_compound",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "argument_common",
@@ -334,7 +397,15 @@
           "named": true
         },
         {
+          "type": "named_compound_macro",
+          "named": true
+        },
+        {
           "type": "named_list",
+          "named": true
+        },
+        {
+          "type": "named_list_macro",
           "named": true
         },
         {
@@ -342,11 +413,23 @@
           "named": true
         },
         {
+          "type": "nbt_array_macro",
+          "named": true
+        },
+        {
           "type": "nbt_compound",
           "named": true
         },
         {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
           "type": "nbt_path",
+          "named": true
+        },
+        {
+          "type": "nbt_path_macro",
           "named": true
         },
         {
@@ -362,6 +445,10 @@
           "named": true
         },
         {
+          "type": "run_clause_macro",
+          "named": true
+        },
+        {
           "type": "selector",
           "named": true
         },
@@ -370,7 +457,30 @@
           "named": true
         },
         {
+          "type": "selector_arguments_macro",
+          "named": true
+        },
+        {
+          "type": "selector_macro",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_list_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "named_list",
           "named": true
         }
       ]
@@ -389,11 +499,27 @@
           "named": true
         },
         {
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "nbt_array",
           "named": true
         },
         {
+          "type": "nbt_array_macro",
+          "named": true
+        },
+        {
           "type": "nbt_compound",
+          "named": true
+        },
+        {
+          "type": "nbt_compound_macro",
           "named": true
         },
         {
@@ -406,6 +532,21 @@
         },
         {
           "type": "unquoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nbt_array_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nbt_array",
           "named": true
         }
       ]
@@ -424,7 +565,19 @@
           "named": true
         },
         {
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "nbt_array",
+          "named": true
+        },
+        {
+          "type": "nbt_array_macro",
           "named": true
         },
         {
@@ -432,7 +585,15 @@
           "named": true
         },
         {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
           "type": "nbt_key",
+          "named": true
+        },
+        {
+          "type": "nbt_key_macro",
           "named": true
         },
         {
@@ -451,6 +612,21 @@
     }
   },
   {
+    "type": "nbt_compound_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nbt_compound",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "nbt_key",
     "named": true,
     "fields": {},
@@ -458,6 +634,29 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nbt_key_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "macro_component",
+          "named": true
+        },
         {
           "type": "macro_interpolation",
           "named": true
@@ -490,11 +689,34 @@
           "named": true
         },
         {
+          "type": "named_compound_macro",
+          "named": true
+        },
+        {
           "type": "named_list",
           "named": true
         },
         {
+          "type": "named_list_macro",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nbt_path_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nbt_path",
           "named": true
         }
       ]
@@ -510,11 +732,94 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "command",
+          "named": true
+        },
+        {
+          "type": "command_name_macro",
+          "named": true
+        },
+        {
+          "type": "coordinates",
+          "named": true
+        },
+        {
+          "type": "fake_player",
+          "named": true
+        },
+        {
+          "type": "macro_component",
+          "named": true
+        },
+        {
+          "type": "named_compound_macro",
+          "named": true
+        },
+        {
+          "type": "named_list_macro",
+          "named": true
+        },
+        {
+          "type": "nbt_array_macro",
+          "named": true
+        },
+        {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
+          "type": "nbt_path_macro",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "resource_location",
+          "named": true
+        },
+        {
+          "type": "run_clause_macro",
+          "named": true
+        },
+        {
+          "type": "selector_arguments_macro",
+          "named": true
+        },
+        {
+          "type": "selector_macro",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "run_clause_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "command",
+          "type": "run_clause",
           "named": true
         }
       ]
@@ -523,10 +828,25 @@
   {
     "type": "selector",
     "named": true,
-    "fields": {},
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "selector_argument_macro",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "selector_arguments",
@@ -548,10 +868,6 @@
       "required": true,
       "types": [
         {
-          "type": "macro_interpolation",
-          "named": true
-        },
-        {
           "type": "nbt_compound",
           "named": true
         },
@@ -561,6 +877,41 @@
         },
         {
           "type": "selector_key",
+          "named": true
+        },
+        {
+          "type": "selector_value_content",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selector_argument_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
+          "type": "nbt_compound_macro",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "selector_key_macro",
           "named": true
         },
         {
@@ -595,6 +946,26 @@
     }
   },
   {
+    "type": "selector_arguments_macro",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "selector_argument_macro",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "selector_key",
     "named": true,
     "fields": {},
@@ -604,6 +975,36 @@
       "types": [
         {
           "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selector_key_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selector_macro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "selector",
           "named": true
         }
       ]

@@ -18,17 +18,20 @@ $data modify storage $(namespace):$(id) set value {key:$(val),$(key):val,$(key):
       (macro_interpolation))
     (argument_common)
     (argument_common)
-    (nbt_compound
-      (nbt_key)
-      (unquoted_string
-        (macro_interpolation))
-      (nbt_key
-        (macro_interpolation))
-      (unquoted_string)
-      (nbt_key
-        (macro_interpolation))
-      (unquoted_string
-        (macro_interpolation)))))
+    (nbt_compound_macro
+      (nbt_compound)
+      (nbt_compound
+        (nbt_key_macro
+          (macro_component
+            (argument_common)
+            (macro_interpolation)
+            (argument_common)
+            (macro_interpolation)
+            (argument_common)
+            (macro_interpolation)))
+        (macro_component
+          (macro_interpolation)))
+      (nbt_compound))))
 ```
 
 ### Actual output
@@ -44,17 +47,20 @@ $data modify storage $(namespace):$(id) set value {key:$(val),$(key):val,$(key):
       (macro_interpolation))
     (argument_common)
     (argument_common)
-    (nbt_compound
-      (nbt_key)
-      (unquoted_string
-        (macro_interpolation))
-      (nbt_key
-        (macro_interpolation))
-      (unquoted_string)
-      (nbt_key
-        (macro_interpolation))
-      (unquoted_string
-        (macro_interpolation)))))
+    (nbt_compound_macro
+      (nbt_compound)
+      (nbt_compound
+        (nbt_key_macro
+          (macro_component
+            (argument_common)
+            (macro_interpolation)
+            (argument_common)
+            (macro_interpolation)
+            (argument_common)
+            (macro_interpolation)))
+        (macro_component
+          (macro_interpolation)))
+      (nbt_compound))))
 ```
 
 ### Status: PASS
