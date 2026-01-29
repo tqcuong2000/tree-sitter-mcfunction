@@ -16,7 +16,7 @@ This parser supports:
 Here are the common commands used for developing this project:
 
 - **Build**: Run `tree-sitter generate` to generate the parser from the grammar definition.
-- **Test**: Run `python test/run_tests.py` to validate the grammar against test cases.
+- **Test**: Run `python test/run.py` to validate the grammar against test cases.
 - **Playground**: Run `npm start` to build the WASM file and open the interactive playground in your browser.
 - **WebAssembly**: Run `tree-sitter build --wasm` to generate the WebAssembly module.
 

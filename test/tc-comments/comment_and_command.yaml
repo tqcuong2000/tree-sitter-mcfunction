@@ -1,0 +1,13 @@
+command:
+  # this is a comment
+  say hello
+
+expected:
+  (source_file
+    (comment_line
+      (comment_normal
+        tag: (comment_normal_tag)
+        content: (comment_content)))
+    (command
+      (command_name)
+      (argument_common)))

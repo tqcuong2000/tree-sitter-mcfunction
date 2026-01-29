@@ -233,6 +233,10 @@
           "named": true
         },
         {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "nbt_array",
           "named": true
         },
@@ -265,6 +269,10 @@
       "types": [
         {
           "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
           "named": true
         },
         {
@@ -342,6 +350,10 @@
       "required": true,
       "types": [
         {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "nbt_compound",
           "named": true
         },
@@ -351,10 +363,6 @@
         },
         {
           "type": "selector_key",
-          "named": true
-        },
-        {
-          "type": "selector_value_content",
           "named": true
         },
         {
@@ -485,10 +493,6 @@
   },
   {
     "type": "number",
-    "named": true
-  },
-  {
-    "type": "selector_value_content",
     "named": true
   },
   {

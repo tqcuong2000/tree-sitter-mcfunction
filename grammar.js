@@ -117,8 +117,6 @@ export default grammar({
           "]",
         ),
       ),
-    // A value that can be stored in an NBT array.
-    _nbt_value: ($) => choice($.string, $.number, $.boolean, $.nbt_array),
     // An NBT compound (e.g., {key: "value"}).
     nbt_compound: ($) =>
       seq(
@@ -137,7 +135,14 @@ export default grammar({
 
     // A value within an NBT compound, including nested compounds.
     _nbt_value: ($) =>
-      choice($.string, $.number, $.boolean, $.nbt_compound, $.nbt_array, $.unquoted_string),
+      choice(
+        $.string, 
+        $.number, 
+        $.boolean, 
+        $.nbt_compound, 
+        $.nbt_array, 
+        $.unquoted_string, 
+        $.macro_interpolation),
     // Selector
 
     selector: ($) =>
@@ -162,14 +167,14 @@ export default grammar({
     selector_key: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
     _selector_value: ($) =>
-      choice($.string, $.number, $.nbt_compound, $.selector_value_content),
+      choice($.string, $.number, $.nbt_compound, $.macro_interpolation),
 
-    selector_value_content: ($) => /[^\],{\[\s]+/,
+    selector_value: ($) => /[^\],{\[\s]+/,
 
     // Resource Location (e.g., minecraft:diamond)
     resource_location: ($) =>
       choice(
-        token(prec(1, /[a-z0-9_.\-]+:[^\s\{\[]+/)),
+        token(prec(1, /[a-z0-9_.\-]+:[^\s\{\[$]+/)),
         token(prec(2, seq('"', /[a-z0-9_.\-]+:[a-z0-9_.\-\/]+/, '"'))),
       ),
 

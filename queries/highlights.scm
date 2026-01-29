@@ -10,20 +10,22 @@
 
 ; Macros
 (command_name_macro) @function
-(macro_interpolation) @variable.parameter
+(macro_interpolation) @type
 
 ; Literals
 (string) @string
-(boolean) @variable
-(resource_location) @module
+(boolean) @attribute
+(resource_location) @type
+(coordinates) @attribute
 
 
 ; NBT
 (nbt_key) @property
 
 ; Selectors
-(selector_variable) @module
+(selector_variable) @attribute
 (selector_key) @property
+(selector_content) @string
 
 ; Punctuation
 [

@@ -49,3 +49,5 @@ zig-out/
 *.jar
 test/test-plan.yaml
 test-summary.yaml
+test_results.txt
+log.html
