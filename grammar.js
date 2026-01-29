@@ -107,7 +107,8 @@ export default grammar({
       $.named_compound,
       $.named_list,
       $.argument_common,
-      $.string
+      $.string,
+      $.macro_interpolation
     ),
 
     // The name of the command being executed.
@@ -326,6 +327,7 @@ export default grammar({
         $.coordinates,
         $.selector_arguments,
         $.fake_player,
+        $.macro_interpolation,
       ),
 
     run_clause: ($) => prec(5, seq(
@@ -340,9 +342,9 @@ export default grammar({
 
     _argument_macro: ($) =>
       choice(
+        $.macro_component,
         $._argument_shared,
         $.argument_common,
-        $.macro_component,
       ),
   },
 });

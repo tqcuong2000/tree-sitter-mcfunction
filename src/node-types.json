@@ -46,6 +46,10 @@
           "named": true
         },
         {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "named_compound",
           "named": true
         },
@@ -322,6 +326,10 @@
           "named": true
         },
         {
+          "type": "macro_interpolation",
+          "named": true
+        },
+        {
           "type": "named_compound",
           "named": true
         },
@@ -471,6 +479,10 @@
       "types": [
         {
           "type": "argument_common",
+          "named": true
+        },
+        {
+          "type": "macro_interpolation",
           "named": true
         },
         {

@@ -522,6 +522,10 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_interpolation"
         }
       ]
     },
@@ -1539,6 +1543,10 @@
         {
           "type": "SYMBOL",
           "name": "fake_player"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_interpolation"
         }
       ]
     },
@@ -1577,15 +1585,15 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "macro_component"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_argument_shared"
         },
         {
           "type": "SYMBOL",
           "name": "argument_common"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "macro_component"
         }
       ]
     }
