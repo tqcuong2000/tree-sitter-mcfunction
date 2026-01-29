@@ -200,7 +200,7 @@ export default grammar({
     // Resource Location (e.g., minecraft:diamond)
     resource_location: ($) =>
       choice(
-        token(prec(1, /[a-z0-9_.\-]+:[^\s\{\[$]+/)),
+        token(prec(1, /[a-z0-9_.\-]+:[a-z0-9_.\-/]+/)),
         token(prec(2, seq('"', /[a-z0-9_.\-]+:[a-z0-9_.\-\/]+/, '"'))),
       ),
 
@@ -235,7 +235,7 @@ export default grammar({
     // A sequence of text and macros that forms an unquoted identifier
     _unquoted_identifier: ($) =>
       seq(
-        choice(/[a-zA-Z_]+/, $.macro_interpolation),
+        choice(/[a-zA-Z0-9_]+/, $.macro_interpolation),
         repeat(
           choice(
             token.immediate(/[a-zA-Z0-9_]+/),

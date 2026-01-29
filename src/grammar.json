@@ -938,7 +938,7 @@
             "value": 1,
             "content": {
               "type": "PATTERN",
-              "value": "[a-z0-9_.\\-]+:[^\\s\\{\\[$]+"
+              "value": "[a-z0-9_.\\-]+:[a-z0-9_.\\-/]+"
             }
           }
         },
@@ -1093,7 +1093,7 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[a-zA-Z_]+"
+              "value": "[a-zA-Z0-9_]+"
             },
             {
               "type": "SYMBOL",

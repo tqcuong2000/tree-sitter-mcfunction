@@ -10,12 +10,12 @@
 
 ; Macros
 (command_name_macro) @function
-(macro_interpolation) @type
+(macro_interpolation) @string.special
 
 ; Literals
 (string) @string
 (boolean) @attribute
-(resource_location) @type
+(resource_location) @constant
 (coordinates) @attribute
 
 
@@ -23,7 +23,7 @@
 (nbt_key) @property
 
 ; Selectors
-(selector_variable) @attribute
+(selector_variable) @constant
 (selector_key) @property
 (selector_value_content) @string
 
