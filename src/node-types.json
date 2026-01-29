@@ -480,6 +480,10 @@
         {
           "type": "named_list",
           "named": true
+        },
+        {
+          "type": "string",
+          "named": true
         }
       ]
     }

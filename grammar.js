@@ -106,7 +106,8 @@ export default grammar({
     _nbt_path_segment: ($) => choice(
       $.named_compound,
       $.named_list,
-      $.argument_common
+      $.argument_common,
+      $.string
     ),
 
     // The name of the command being executed.
