@@ -25,7 +25,7 @@
 ; Selectors
 (selector_variable) @attribute
 (selector_key) @property
-(selector_content) @string
+(selector_value_content) @string
 
 ; Punctuation
 [

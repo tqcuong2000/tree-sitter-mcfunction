@@ -1,0 +1,13 @@
+command:
+  $function test:test {$(id):"time.flags.$(id)_cd"}
+
+expected:
+  (source_file
+    (command
+      (command_name_macro)
+      (resource_location)
+      (nbt_compound
+        (nbt_key
+          (macro_interpolation))
+        (string
+          (macro_interpolation)))))

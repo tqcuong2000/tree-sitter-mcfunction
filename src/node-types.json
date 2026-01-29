@@ -233,10 +233,6 @@
           "named": true
         },
         {
-          "type": "macro_interpolation",
-          "named": true
-        },
-        {
           "type": "nbt_array",
           "named": true
         },
@@ -272,10 +268,6 @@
           "named": true
         },
         {
-          "type": "macro_interpolation",
-          "named": true
-        },
-        {
           "type": "nbt_array",
           "named": true
         },
@@ -307,9 +299,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        },
         {
           "type": "string",
           "named": true
@@ -366,6 +362,10 @@
           "named": true
         },
         {
+          "type": "selector_value_content",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         }
@@ -395,7 +395,17 @@
   {
     "type": "selector_key",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "source_file",
@@ -420,19 +430,47 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "unquoted_string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "macro_interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\n",
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "$",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -493,6 +531,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "selector_value_content",
     "named": true
   },
   {

@@ -417,67 +417,123 @@
       ]
     },
     "_double_quoted_string": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\""
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^\"\\\\\\n]"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_string_content_double"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "$("
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "[^)]*"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
+                      }
+                    ]
+                  }
                 },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\."
-                }
-              ]
-            }
-          },
-          {
+                "named": true,
+                "value": "macro_interpolation"
+              }
+            ]
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
             "type": "STRING",
             "value": "\""
           }
-        ]
+        }
+      ]
+    },
+    "_string_content_double": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\"\\\\$]+|\\\\.|[$]"
       }
     },
     "_single_quoted_string": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "'"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^'\\\\\\n]"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_string_content_single"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "$("
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "[^)]*"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
+                      }
+                    ]
+                  }
                 },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\."
-                }
-              ]
-            }
-          },
-          {
+                "named": true,
+                "value": "macro_interpolation"
+              }
+            ]
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
             "type": "STRING",
             "value": "'"
           }
-        ]
+        }
+      ]
+    },
+    "_string_content_single": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^'\\\\$]+|\\\\.|[$]"
       }
     },
     "boolean": {
@@ -501,11 +557,8 @@
       }
     },
     "unquoted_string": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z_][a-zA-Z0-9_]*"
-      }
+      "type": "SYMBOL",
+      "name": "_unquoted_identifier"
     },
     "number": {
       "type": "TOKEN",
@@ -680,8 +733,8 @@
           "name": "string"
         },
         {
-          "type": "PATTERN",
-          "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+          "type": "SYMBOL",
+          "name": "_unquoted_identifier"
         }
       ]
     },
@@ -711,10 +764,6 @@
         {
           "type": "SYMBOL",
           "name": "unquoted_string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "macro_interpolation"
         }
       ]
     },
@@ -834,8 +883,21 @@
       ]
     },
     "selector_key": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "macro_interpolation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unquoted_identifier"
+        }
+      ]
     },
     "_selector_value": {
       "type": "CHOICE",
@@ -854,11 +916,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "selector_value_content"
+        },
+        {
+          "type": "SYMBOL",
           "name": "macro_interpolation"
         }
       ]
     },
-    "selector_value": {
+    "selector_value_content": {
       "type": "PATTERN",
       "value": "[^\\],{\\[\\s]+"
     },
@@ -994,6 +1060,72 @@
           ]
         }
       }
+    },
+    "_macro_interpolation_immediate": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$("
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^)]*"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        }
+      }
+    },
+    "_unquoted_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[a-zA-Z_]+"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "macro_interpolation"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[a-zA-Z0-9_]+"
+                }
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_macro_interpolation_immediate"
+                },
+                "named": true,
+                "value": "macro_interpolation"
+              }
+            ]
+          }
+        }
+      ]
     },
     "_argument": {
       "type": "CHOICE",

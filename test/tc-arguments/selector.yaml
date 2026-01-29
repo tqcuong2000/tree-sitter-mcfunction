@@ -11,7 +11,7 @@ expected:
         (selector_arguments
           argument: (selector_argument
             (selector_key)
-            (selector_value))))
+            (selector_value_content))))
       (string))
     (command
       (command_name)

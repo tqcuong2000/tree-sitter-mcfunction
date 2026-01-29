@@ -84,16 +84,43 @@ export default grammar({
     string: ($) => choice($._double_quoted_string, $._single_quoted_string),
     // A string enclosed in double quotes.
     _double_quoted_string: ($) =>
-      token(seq('"', repeat(choice(/[^"\\\n]/, /\\./)), '"')),
+      seq(
+        '"',
+        repeat(
+          choice(
+            $._string_content_double,
+            alias(
+              token.immediate(seq("$(", /[^)]*/, ")")),
+              $.macro_interpolation,
+            ),
+          ),
+        ),
+        token.immediate('"'),
+      ),
+    _string_content_double: ($) => token.immediate(/[^"\\$]+|\\.|[$]/),
+
     // A string enclosed in single quotes.
     _single_quoted_string: ($) =>
-      token(seq("'", repeat(choice(/[^'\\\n]/, /\\./)), "'")),
+      seq(
+        "'",
+        repeat(
+          choice(
+            $._string_content_single,
+            alias(
+              token.immediate(seq("$(", /[^)]*/, ")")),
+              $.macro_interpolation,
+            ),
+          ),
+        ),
+        token.immediate("'"),
+      ),
+    _string_content_single: ($) => token.immediate(/[^'\\$]+|\\.|[$]/),
     // A boolean literal (true or false).
     boolean: ($) => choice("true", "false"),
     // Fake player name
     fake_player: ($) => token(/#[^\s\{\[\]"']+/),
     // Unquoted string
-    unquoted_string: ($) => token(/[a-zA-Z_][a-zA-Z0-9_]*/),
+    unquoted_string: ($) => $._unquoted_identifier,
     // A numerical value, optionally with a type suffix (e.g., 1.0f).
     number: ($) =>
       token(
@@ -131,18 +158,17 @@ export default grammar({
     _nbt_pair: ($) => seq($.nbt_key, ":", $._nbt_value),
 
     // The key of an NBT pair.
-    nbt_key: ($) => choice($.string, /[a-zA-Z_][a-zA-Z0-9_]*/),
+    nbt_key: ($) => choice($.string, $._unquoted_identifier),
 
     // A value within an NBT compound, including nested compounds.
     _nbt_value: ($) =>
       choice(
-        $.string, 
-        $.number, 
-        $.boolean, 
-        $.nbt_compound, 
-        $.nbt_array, 
-        $.unquoted_string, 
-        $.macro_interpolation),
+        $.string,
+        $.number,
+        $.boolean,
+        $.nbt_compound,
+        $.nbt_array,
+        $.unquoted_string),
     // Selector
 
     selector: ($) =>
@@ -164,12 +190,12 @@ export default grammar({
 
     selector_argument: ($) => seq($.selector_key, "=", $._selector_value),
 
-    selector_key: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    selector_key: ($) => choice(prec(1, $.macro_interpolation), $._unquoted_identifier),
 
     _selector_value: ($) =>
-      choice($.string, $.number, $.nbt_compound, $.macro_interpolation),
+      choice($.string, $.number, $.nbt_compound, $.selector_value_content, $.macro_interpolation),
 
-    selector_value: ($) => /[^\],{\[\s]+/,
+    selector_value_content: ($) => /[^\],{\[\s]+/,
 
     // Resource Location (e.g., minecraft:diamond)
     resource_location: ($) =>
@@ -201,6 +227,22 @@ export default grammar({
 
     // Macro interpolation (e.g., $(name))
     macro_interpolation: ($) => token(prec(1, seq("$(", /[^)]*/, ")"))),
+
+    // Immediate macro interpolation for use inside other rules (no leading extras allowed)
+    _macro_interpolation_immediate: ($) =>
+      token.immediate(prec(2, seq("$(", /[^)]*/, ")"))),
+
+    // A sequence of text and macros that forms an unquoted identifier
+    _unquoted_identifier: ($) =>
+      seq(
+        choice(/[a-zA-Z_]+/, $.macro_interpolation),
+        repeat(
+          choice(
+            token.immediate(/[a-zA-Z0-9_]+/),
+            alias($._macro_interpolation_immediate, $.macro_interpolation),
+          ),
+        ),
+      ),
     // A single argument within a command.
     _argument: ($) =>
       choice(
