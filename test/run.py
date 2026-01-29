@@ -2,25 +2,40 @@ import os
 import glob
 import subprocess
 import re
+import argparse
+import sys
 from test_utils import TestCaseManager
 
 def strip_ranges(text):
     """Removes patterns like [0, 0] - [1, 5]"""
     return re.sub(r"\s*\[\d+, \d+\]\s*-\s*\[\d+, \d+\]", "", text)
 
-def run_tests():
-    # 1. Look for test/tc-**/**.md files
-    search_path = os.path.join("test", "tc-*", "**", "*.md")
-    test_files = glob.glob(search_path, recursive=True)
+def run_tests(specific_tc=None):
+    if specific_tc:
+        if not os.path.exists(specific_tc):
+            print(f"Error: Test case file '{specific_tc}' not found.")
+            sys.exit(1)
+        if not os.path.isfile(specific_tc):
+            print(f"Error: '{specific_tc}' is not a file.")
+            sys.exit(1)
+        test_files = [specific_tc]
+    else:
+        # 1. Look for test/tc-**/**.md files
+        search_path = os.path.join("test", "tc-*", "**", "*.md")
+        test_files = glob.glob(search_path, recursive=True)
     
     if not test_files:
         print("No test cases found.")
-        return
+        return 0
 
     results = {"PASS": 0, "FAIL": 0, "SKIP": 0}
     failed_tests = []
+    skipped_tests = []
 
-    print(f"Running {len(test_files)} tests...")
+    if specific_tc:
+        print(f"Running single test: {specific_tc}")
+    else:
+        print(f"Running {len(test_files)} tests...")
 
     for file_path in test_files:
         try:
@@ -28,7 +43,7 @@ def run_tests():
             tc = TestCaseManager.load(file_path)
             
             # Use a temp file to parse
-            temp_file = "temp_test_run.mcfunction"
+            temp_file = f"temp_test_run_{os.getpid()}.mcfunction"
             with open(temp_file, "w", encoding="utf-8") as f:
                 f.write(tc.command)
 
@@ -58,6 +73,7 @@ def run_tests():
                 # 4. Compare with expected output
                 if not tc.expected_output.strip():
                     tc.status = "SKIP"
+                    skipped_tests.append(file_path)
                 elif tc.actual_output == tc.expected_output.strip():
                     tc.status = "PASS"
                 else:
@@ -70,6 +86,18 @@ def run_tests():
                 # Save the updated test case
                 tc.save()
                 
+                if specific_tc:
+                    print(f"Status: {tc.status}")
+                    if tc.status == "FAIL":
+                        print("\nDiff (Actual vs Expected):")
+                        print("-" * 20)
+                        print("ACTUAL:")
+                        print(tc.actual_output)
+                        print("-" * 20)
+                        print("EXPECTED:")
+                        print(tc.expected_output)
+                        print("-" * 20)
+                
             finally:
                 if os.path.exists(temp_file):
                     os.remove(temp_file)
@@ -78,22 +106,35 @@ def run_tests():
             print(f"Error processing {file_path}: {e}")
 
     # Summary Output
-    print("\n" + "="*30)
-    print("TEST SUMMARY")
-    print("="*30)
-    print(f"TOTAL: {len(test_files)}")
-    print(f"PASS:  {results['PASS']}")
-    print(f"FAIL:  {results['FAIL']}")
-    print(f"SKIP:  {results['SKIP']}")
-    print("="*30)
+    if not specific_tc:
+        print("\n" + "="*30)
+        print("TEST SUMMARY")
+        print("="*30)
+        print(f"TOTAL: {len(test_files)}")
+        print(f"PASS:  {results['PASS']}")
+        print(f"FAIL:  {results['FAIL']}")
+        print(f"SKIP:  {results['SKIP']}")
+        print("="*30)
 
-    if failed_tests:
-        print("\nFAILED TESTS:")
-        for ft in failed_tests:
-            print(f" - {ft}")
-        print("\nCheck the 'Actual output' and 'Status' fields in these files to debug.")
-    else:
-        print("\nAll applicable tests passed!")
+        if skipped_tests:
+            print("\nSKIPPED TESTS (no expected output):")
+            for st in skipped_tests:
+                print(f" - {st}")
+
+        if failed_tests:
+            print("\nFAILED TESTS:")
+            for ft in failed_tests:
+                print(f" - {ft}")
+            print("\nCheck the 'Actual output' and 'Status' fields in these files to debug.")
+        elif results['PASS'] + results['SKIP'] == len(test_files):
+            print("\nNo failures detected.")
+
+    return results['FAIL']
 
 if __name__ == "__main__":
-    run_tests()
+    parser = argparse.ArgumentParser(description="Run tree-sitter-mcfunction tests.")
+    parser.add_argument("--tc", help="Path to a single test case file (.md) to run.")
+    args = parser.parse_args()
+    
+    fail_count = run_tests(specific_tc=args.tc)
+    sys.exit(1 if fail_count > 0 else 0)

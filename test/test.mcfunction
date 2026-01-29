@@ -1,1 +1,0 @@
-execute run say hello
