@@ -6,11 +6,15 @@ export default grammar({
   conflicts: ($) => [[$._argument, $._absolute_coordinate]],
 
   rules: {
-    source_file: ($) => repeat(choice($.comment_line, $.command, "\n")),
+    source_file: ($) =>
+      seq(
+        repeat(choice(seq($.comment_line, "\n"), seq($.command, "\n"), "\n")),
+        optional(choice($.comment_line, $.command)),
+      ),
     // For comment:
     comment_line: ($) =>
       choice($.comment_directive, $.comment_important, $.comment_normal),
-    comment_content: ($) => token(repeat1(choice(/[^\\]/, /\\./, /\\\r?\n/))),
+    comment_content: ($) => token(repeat1(choice(/[^\\\r\n]/, /\\./, /\\\r?\n/))),
     // --- Normal Comments ---
     // A normal comment line (e.g., # content).
     comment_normal: ($) =>

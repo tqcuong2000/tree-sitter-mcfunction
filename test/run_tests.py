@@ -2,7 +2,6 @@ import glob
 import os
 import subprocess
 import re
-import yaml
 
 
 def strip_ranges(text):
@@ -74,65 +73,61 @@ def run_test(path):
         line.strip() for line in clean_expected.split("\n") if line.strip()
     ]
     passed = True
+    failure_details = []
     for line in expected_match_lines:
         # Strip ranges from expected line for comparison
         clean_line = strip_ranges(line)
         if clean_line not in clean_actual:
-            print(f"FAILED TO FIND LINE: '{clean_line}' (Original: '{line}')")
-            # print(f"ACTUAL WAS: '{clean_actual}'")
+            failure_details.append(f"MISSING: '{clean_line}' (Original: '{line}')")
             passed = False
+            # Don't break immediately to show all missing lines? 
+            # Original logic broke immediately. I'll stick to original logic but capture validation msg.
             break
 
     os.remove(temp_file)
-    return passed, actual, expected
+    return passed, failure_details
+
 
 test_files = glob.glob("test/tc-*/*.yaml")
-print(f"Discovered {len(test_files)} tests: {test_files}")
-
-summary_data = {
-    "summary": {"total": len(test_files), "passed": 0, "failed": 0},
-    "test_cases": [],
-}
 
 if not test_files:
     print("No test files found!")
     exit(1)
 
-for i, test_file in enumerate(test_files):
-    print(f"Running {test_file}...")
-    try:
-        passed, actual, expected = run_test(test_file)
+total = len(test_files)
+passed_count = 0
+failed_cases = []
 
-        test_case = {
-            "id": i + 1,
-            "path": test_file.replace("\\", "/"),
-            "status": "PASS" if passed else "FAIL",
-        }
+print(f"Running {total} tests...")
+
+for i, test_file in enumerate(test_files):
+    # Print progress inline? Or just run silently and print final results?
+    # Agent friendly: print failures clearly.
+    try:
+        passed, failure_details = run_test(test_file)
 
         if passed:
-            summary_data["summary"]["passed"] += 1
+            passed_count += 1
+            # print(f"[PASS] {test_file}") # Optional: reduce noise
         else:
-            summary_data["summary"]["failed"] += 1
-            test_case["expected_result"] = expected
-            test_case["actual_result"] = actual
-
-        summary_data["test_cases"].append(test_case)
+            failed_cases.append((test_file, failure_details))
+            print(f"[FAIL] {test_file}")
+            for detail in failure_details:
+                print(f"  - {detail}")
 
     except Exception as e:
-        print(f"Error running {test_file}: {e}")
-        summary_data["summary"]["failed"] += 1
-        summary_data["test_cases"].append(
-            {
-                "id": i + 1,
-                "path": test_file.replace("\\", "/"),
-                "status": "FAIL",
-                "error": str(e),
-            }
-        )
+        failed_cases.append((test_file, [str(e)]))
+        print(f"[ERROR] {test_file}: {e}")
 
-print(f"Total: {summary_data['summary']['total']}")
-print(f"Passed: {summary_data['summary']['passed']}")
-print(f"Failed: {summary_data['summary']['failed']}")
+print("\n" + "="*30)
+print(f"SUMMARY: {passed_count}/{total} passed.")
+print("="*30)
 
-with open("test/test-summary.yaml", "w", encoding="utf-8") as f:
-    yaml.dump(summary_data, f, sort_keys=False, indent=2, width=1000)
+if failed_cases:
+    print("\nFAILED TESTS:")
+    for path, errors in failed_cases:
+        print(f"- {path}")
+    exit(1)
+else:
+    print("\nAll tests passed!")
+    exit(0)
