@@ -87,7 +87,14 @@ export default grammar({
         $.run_clause,
         $.keyword,
       ),
-    resource_location: ($) => token(/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+/),
+    resource_location: ($) =>
+      token(
+        choice(
+          /[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+/,
+          seq('"', /[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+/, '"'),
+          seq("'", /[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+/, "'"),
+        ),
+      ),
     string: ($) =>
       choice(
         token(seq("'", repeat(choice(/[^'\\\n$]/, /\\./, /\$[^(\n]/)), "'")),

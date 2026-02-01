@@ -568,8 +568,47 @@
     "resource_location": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\""
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+"
+              },
+              {
+                "type": "STRING",
+                "value": "\""
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+"
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              }
+            ]
+          }
+        ]
       }
     },
     "string": {

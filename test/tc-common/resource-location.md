@@ -19,10 +19,10 @@ say 'foo:bar/123'
     (resource_location))
   (command
     (command_name)
-    (string))
+    (resource_location))
   (command
     (command_name)
-    (string)))
+    (resource_location)))
 ```
 
 ### Actual output
@@ -36,10 +36,10 @@ say 'foo:bar/123'
     (resource_location))
   (command
     (command_name)
-    (string))
+    (resource_location))
   (command
     (command_name)
-    (string)))
+    (resource_location)))
 ```
 
 ### Status: PASS
