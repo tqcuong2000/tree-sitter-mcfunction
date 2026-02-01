@@ -2,10 +2,10 @@
 
 ### Input command
 ```mcfunction
-$data merge block 10 10 10 {Key: $(value)}
-$data merge block 10 10 10 {$(key): "value"}
-$data merge block 10 10 10 {$(key): $(value)}
-$data merge block 10 10 10 [$(value1), $(value2)]
+$data merge  {Key: $(value)}
+$data merge  {$(key): "value"}
+$data merge  {$(key): $(value)}
+$data merge  [$(value1), $(value2)]
 ```
 
 ### Expected output
@@ -14,39 +14,37 @@ $data merge block 10 10 10 [$(value1), $(value2)]
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (string)
-        value: (macro_argument
-          (macro_interpolation)))))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (macro_argument
+            (macro_interpolation))))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (macro_argument
-          (macro_interpolation))
-        value: (string))))
+        key: (nbt_key
+          (macro_argument
+            (macro_interpolation)))
+        value: (nbt_value
+          (string)))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (macro_argument
-          (macro_interpolation))
-        value: (macro_argument
-          (macro_interpolation)))))
+        key: (nbt_key
+          (macro_argument
+            (macro_interpolation)))
+        value: (nbt_value
+          (macro_argument
+            (macro_interpolation))))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_list
       (macro_argument
         (macro_interpolation))
@@ -60,39 +58,37 @@ $data merge block 10 10 10 [$(value1), $(value2)]
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (string)
-        value: (macro_argument
-          (macro_interpolation)))))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (macro_argument
+            (macro_interpolation))))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (macro_argument
-          (macro_interpolation))
-        value: (string))))
+        key: (nbt_key
+          (macro_argument
+            (macro_interpolation)))
+        value: (nbt_value
+          (string)))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_compound
       (nbt_pair
-        key: (macro_argument
-          (macro_interpolation))
-        value: (macro_argument
-          (macro_interpolation)))))
+        key: (nbt_key
+          (macro_argument
+            (macro_interpolation)))
+        value: (nbt_value
+          (macro_argument
+            (macro_interpolation))))))
   (macro_command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_list
       (macro_argument
         (macro_interpolation))

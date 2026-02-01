@@ -565,46 +565,11 @@
         }
       ]
     },
-    "identifier": {
+    "resource_location": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[a-zA-Z0-9_.-]+"
-            }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "/"
-                    },
-                    {
-                      "type": "TOKEN",
-                      "content": {
-                        "type": "PATTERN",
-                        "value": "[a-zA-Z0-9_.-]+"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
+        "type": "PATTERN",
+        "value": "[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+"
       }
     },
     "string": {
@@ -1014,13 +979,6 @@
         }
       }
     },
-    "namespace": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z0-9_-]+"
-      }
-    },
     "boolean": {
       "type": "CHOICE",
       "members": [
@@ -1316,31 +1274,6 @@
           "content": {
             "type": "SYMBOL",
             "name": "nbt_value"
-          }
-        }
-      ]
-    },
-    "resource_location": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "namespace",
-          "content": {
-            "type": "SYMBOL",
-            "name": "namespace"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "FIELD",
-          "name": "identifier",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
           }
         }
       ]

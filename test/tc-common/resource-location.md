@@ -1,10 +1,11 @@
-# coordinates.md
+# resource-location.md
 
 ### Input command
 ```mcfunction
-tp 1 2 3 4 5
-tp ~.1 ~-.2 ~3
-tp ^1.0 ^-1 ^
+summon minecraft:zombie
+function foo:bar/my/func_
+say "foo:bar"
+say 'foo:bar/123'
 ```
 
 ### Expected output
@@ -12,15 +13,16 @@ tp ^1.0 ^-1 ^
 (source_file
   (command
     (command_name)
-    (coordinates)
-    (number)
-    (number))
+    (resource_location))
   (command
     (command_name)
-    (coordinates))
+    (resource_location))
   (command
     (command_name)
-    (coordinates)))
+    (string))
+  (command
+    (command_name)
+    (string)))
 ```
 
 ### Actual output
@@ -28,15 +30,16 @@ tp ^1.0 ^-1 ^
 (source_file
   (command
     (command_name)
-    (coordinates)
-    (number)
-    (number))
+    (resource_location))
   (command
     (command_name)
-    (coordinates))
+    (resource_location))
   (command
     (command_name)
-    (coordinates)))
+    (string))
+  (command
+    (command_name)
+    (string)))
 ```
 
 ### Status: PASS

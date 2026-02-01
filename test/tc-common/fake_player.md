@@ -2,8 +2,8 @@
 
 ### Input command
 ```mcfunction
-scoreboard players set #global objective 1
-scoreboard players add #temp.score objective 5
+scoreboard set #global
+scoreboard add #temp.score
 ```
 
 ### Expected output
@@ -12,17 +12,11 @@ scoreboard players add #temp.score objective 5
   (command
     (command_name)
     (keyword)
-    (keyword)
-    (fake_player)
-    (keyword)
-    (number))
+    (fake_player))
   (command
     (command_name)
     (keyword)
-    (keyword)
-    (fake_player)
-    (keyword)
-    (number)))
+    (fake_player)))
 ```
 
 ### Actual output
@@ -31,17 +25,11 @@ scoreboard players add #temp.score objective 5
   (command
     (command_name)
     (keyword)
-    (keyword)
-    (fake_player)
-    (keyword)
-    (number))
+    (fake_player))
   (command
     (command_name)
     (keyword)
-    (keyword)
-    (fake_player)
-    (keyword)
-    (number)))
+    (fake_player)))
 ```
 
 ### Status: PASS

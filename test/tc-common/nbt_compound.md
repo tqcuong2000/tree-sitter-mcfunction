@@ -2,7 +2,7 @@
 
 ### Input command
 ```mcfunction
-tellraw @s {"text":"Hello, world!", color:green}
+tellraw @s {"text":green,color:"red"}
 ```
 
 ### Expected output
@@ -14,11 +14,15 @@ tellraw @s {"text":"Hello, world!", color:green}
       (selector_target))
     (nbt_compound
       (nbt_pair
-        key: (string)
-        value: (string))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string)))
       (nbt_pair
-        key: (string)
-        value: (string)))))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string))))))
 ```
 
 ### Actual output
@@ -30,11 +34,15 @@ tellraw @s {"text":"Hello, world!", color:green}
       (selector_target))
     (nbt_compound
       (nbt_pair
-        key: (string)
-        value: (string))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string)))
       (nbt_pair
-        key: (string)
-        value: (string)))))
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string))))))
 ```
 
 ### Status: PASS

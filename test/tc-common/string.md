@@ -1,9 +1,9 @@
-# boolean.md
+# string.md
 
 ### Input command
 ```mcfunction
-say true
-say false
+say "foo"
+say 'foo'
 ```
 
 ### Expected output
@@ -11,10 +11,10 @@ say false
 (source_file
   (command
     (command_name)
-    (boolean))
+    (string))
   (command
     (command_name)
-    (boolean)))
+    (string)))
 ```
 
 ### Actual output
@@ -22,10 +22,10 @@ say false
 (source_file
   (command
     (command_name)
-    (boolean))
+    (string))
   (command
     (command_name)
-    (boolean)))
+    (string)))
 ```
 
 ### Status: PASS

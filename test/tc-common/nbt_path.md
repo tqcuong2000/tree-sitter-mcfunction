@@ -2,105 +2,88 @@
 
 ### Input command
 ```mcfunction
-$data get block ~ ~ ~ foo.bar
-$data get block ~ ~ ~ foo[0]
-$data get block ~ ~ ~ foo[{k:v}].bar
-$data get block ~ ~ ~ 1.2
-$data get block ~ ~ ~ foo [0]
+data get foo.bar
+data get foo[0]
+data get foo[{k:v}].bar
+data get foo{1:"bar"}
 ```
 
 ### Expected output
 ```scheme
 (source_file
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (keyword)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (number)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (nbt_compound
         (nbt_pair
-          key: (string)
-          value: (string)))
+          key: (nbt_key
+            (string))
+          value: (nbt_value
+            (string))))
       (keyword)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
-    (number))
-  (macro_command
-    (command_name)
-    (keyword)
-    (keyword)
-    (coordinates)
-    (keyword)
-    (nbt_list
-      (number))))
+    (nbt_path
+      (keyword)
+      (nbt_pair
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string))))))
 ```
 
 ### Actual output
 ```scheme
 (source_file
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (keyword)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (number)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
     (nbt_path
       (keyword)
       (nbt_compound
         (nbt_pair
-          key: (string)
-          value: (string)))
+          key: (nbt_key
+            (string))
+          value: (nbt_value
+            (string))))
       (keyword)))
-  (macro_command
+  (command
     (command_name)
     (keyword)
-    (keyword)
-    (coordinates)
-    (number))
-  (macro_command
-    (command_name)
-    (keyword)
-    (keyword)
-    (coordinates)
-    (keyword)
-    (nbt_list
-      (number))))
+    (nbt_path
+      (keyword)
+      (nbt_pair
+        key: (nbt_key
+          (string))
+        value: (nbt_value
+          (string))))))
 ```
 
 ### Status: PASS

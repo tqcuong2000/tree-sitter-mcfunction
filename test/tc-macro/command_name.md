@@ -10,20 +10,20 @@ $$(dynamic_command)
 ```scheme
 (source_file
   (macro_command
-    (macro_interpolation)
+    (command_name)
     (keyword))
   (macro_command
-    (macro_interpolation)))
+    (command_name)))
 ```
 
 ### Actual output
 ```scheme
 (source_file
   (macro_command
-    (macro_interpolation)
+    (command_name)
     (keyword))
   (macro_command
-    (macro_interpolation)))
+    (command_name)))
 ```
 
 ### Status: PASS

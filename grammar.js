@@ -87,13 +87,7 @@ export default grammar({
         $.run_clause,
         $.keyword,
       ),
-    identifier: ($) =>
-      token(
-        seq(
-          token(/[a-zA-Z0-9_.-]+/),
-          optional(repeat1(seq("/", token(/[a-zA-Z0-9_.-]+/)))),
-        ),
-      ),
+    resource_location: ($) => token(/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_./-]+/),
     string: ($) =>
       choice(
         token(seq("'", repeat(choice(/[^'\\\n$]/, /\\./, /\$[^(\n]/)), "'")),
@@ -167,7 +161,6 @@ export default grammar({
       ),
     macro_interpolation: ($) => token(seq("$(", /([^)]*)/, ")")),
     macro_fragment: ($) => token(prec(-1, /[^\s:}\],"'.]+/)),
-    namespace: ($) => token(/[a-zA-Z0-9_-]+/),
     boolean: ($) => choice("true", "false"),
     fake_player: ($) => token(/#[a-zA-Z0-9_.-]+/),
     keyword: ($) => token(/[a-zA-Z0-9_-]+/),
@@ -203,12 +196,6 @@ export default grammar({
     nbt_value: ($) => $._nbt_argument,
     nbt_pair: ($) =>
       seq(field("key", $.nbt_key), /=|~|:/, field("value", $.nbt_value)),
-    resource_location: ($) =>
-      seq(
-        field("namespace", $.namespace),
-        ":",
-        field("identifier", $.identifier),
-      ),
     run_clause: ($) =>
       prec.left(
         2,
